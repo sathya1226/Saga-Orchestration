@@ -1,0 +1,204 @@
+#version: '3.8'
+#
+#services:
+#  mysql:
+#    image: mysql:8
+#    container_name: mysql
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: sathya
+#    ports:
+#      - "3306:3306"
+#    volumes:
+#      - mysql_data:/var/lib/mysql
+#    networks:
+#      - bookstore-network
+#
+#  zookeeper:
+#    image: confluentinc/cp-zookeeper:7.5.0
+#    container_name: zookeeper
+#    environment:
+#      ZOOKEEPER_CLIENT_PORT: 2182
+#      ZOOKEEPER_TICK_TIME: 2000
+#    ports:
+#      - "2182:2182"
+#    networks:
+#      - backend
+#
+#
+#
+#  kafka:
+#    image: confluentinc/cp-kafka:7.5.0
+#    container_name: kafka
+#    ports:
+#      - "9092:9092"
+#    environment:
+#      KAFKA_BROKER_ID: 1
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2182
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#    depends_on:
+#      - zookeeper
+#    networks:
+#      - backend
+#
+#  user-service:
+#    build:
+#      context: ../user-service
+#      dockerfile: ../user-service/Dockerfile
+#    container_name: user-service
+#    depends_on:
+#      - mysql
+#      - kafka
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/userdb
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: sathya
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+#    networks:
+#      - bookstore-network
+#
+#  book-service:
+#    build:
+#      context: ./book-service
+#    container_name: book-service
+#    depends_on:
+#      - mysql
+#      - kafka
+#    ports:
+#      - "8082:8082"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/bookdb
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: sathya
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+#    networks:
+#      - boackend
+#
+#  order-service:
+#    build:
+#      context: ../order-service
+#      dockerfile: ../order-service/Dockerfile
+#    container_name: order-service
+#    depends_on:
+#      - mysql
+#      - kafka
+#    ports:
+#      - "8083:8083"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/orderdb
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: sathya
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+#    networks:
+#      - bookstore-network
+#
+#  payment-service:
+#    build:
+#      context: ../payment-service
+#      dockerfile: ../payment-service/Dockerfile
+#    container_name: payment-service
+#    depends_on:
+#      - mysql
+#      - kafka
+#    ports:
+#      - "8084:8084"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/paymentdb
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: sathya
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+#    networks:
+#      - bookstore-network
+#
+#  delivery-service:
+#    build:
+#      context: ../delivery-service
+#      dockerfile: ../delivery-service/Dockerfile
+#    container_name: delivery-service
+#    depends_on:
+#      - mysql
+#      - kafka
+#    ports:
+#      - "8085:8085"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/deliverydb
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: sathya
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+#    networks:
+#      - bookstore-network
+#
+#  saga-orchestrator:
+#    build:
+#      context: ../saga-orchestrator
+#      dockerfile: ../saga-orchestrator/Dockerfile
+#    container_name: saga-orchestrator
+#    depends_on:
+#      - kafka
+#    ports:
+#      - "8086:8086"
+#    environment:
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+#    networks:
+#      - bookstore-network
+#
+#
+##volumes:
+##  mysql_data:
+#
+#networks:
+#  backend:
+
+#version: '3'
+#services:
+#  zookeeper:
+#    image: confluentinc/cp-zookeeper:latest
+#    container_name: zookeeper
+#    ports:
+#      - "2181:2181"
+#    environment:
+#      ZOOKEEPER_CLIENT_PORT: 2181
+#      ZOOKEEPER_TICK_TIME: 2000
+#
+#  kafka:
+#    image: confluentinc/cp-kafka:latest
+#    container_name: kafka
+#    depends_on:
+#      - zookeeper
+#    ports:
+#      - "9092:9092"
+#    environment:
+#      KAFKA_BROKER_ID: 1
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+
+version: '3.8'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper
+    ports:
+      - "2182:2182"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2182
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2182
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+

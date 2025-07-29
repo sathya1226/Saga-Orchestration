@@ -1,0 +1,17 @@
+package com.bookstore.order_service.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class OrderRequestDTO {
+
+    private Long bookId;
+    private Long userId;
+    private int quantity;
+}
