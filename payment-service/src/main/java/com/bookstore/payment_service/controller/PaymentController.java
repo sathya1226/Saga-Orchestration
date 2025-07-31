@@ -3,7 +3,6 @@ package com.bookstore.payment_service.controller;
 import com.bookstore.payment_service.entity.UserBalance;
 import com.bookstore.payment_service.service.PaymentService;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
