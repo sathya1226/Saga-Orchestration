@@ -1,10 +1,7 @@
 package com.bookstore.book_service.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "books")
@@ -13,11 +10,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Book {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String title;
-    private double price;
-    private int stock;
+
+    @Column(nullable = false)
+    private Integer stock;
+
+    @Column(nullable = false)
+    private Double price;
+
+        public void decreaseStock(int quantity){
+            if (this.stock < quantity){
+                throw new IllegalArgumentException("Insufficient stock");
+            }
+            this.stock -= quantity;
+        }
+
 }

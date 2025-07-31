@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BookRequestDTO {
 
-    private Long bookId;
     private String title;
     private double price;
-    private int stock;
+    private Integer stock;
 }

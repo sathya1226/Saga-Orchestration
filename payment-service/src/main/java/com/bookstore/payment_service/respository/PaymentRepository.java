@@ -1,7 +1,10 @@
 package com.bookstore.payment_service.respository;
 
-import com.bookstore.payment_service.entity.Payment;
+import com.bookstore.payment_service.entity.UserBalance;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PaymentRepository extends JpaRepository<Payment, Long> {
+import java.util.Optional;
+
+public interface PaymentRepository extends JpaRepository<UserBalance, Long> {
+    Optional<UserBalance> findById(Long id);
 }

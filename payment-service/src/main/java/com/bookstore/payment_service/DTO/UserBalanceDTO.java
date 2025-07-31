@@ -1,4 +1,4 @@
-package com.bookstore.payment_service.event;
+package com.bookstore.payment_service.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderEvent {
-
-    private Long orderId;
+public class UserBalanceDTO {
     private Long userId;
-    private Double amount;
+    private Double balance;
 }

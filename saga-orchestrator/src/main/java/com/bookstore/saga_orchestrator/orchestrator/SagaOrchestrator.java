@@ -56,6 +56,7 @@ public class SagaOrchestrator {
                     "DELIVERY_INITIATED");
             kafkaTemplate.send("delivery-topic", String.valueOf(paymentEvent.getOrderId()), deliveryEvent);
         } else if (paymentEvent.getOrderStatus().equals(OrderStatus.PAYMENT_FAILED)) {
+            kafkaTemplate.send("payment-rollback-topic", paymentEvent);
             OrderEvent failedEvent = new OrderEvent(paymentEvent.getOrderId(),
                     null, null, 0.0, null,
                     OrderStatus.ORDER_FAILED, 0);

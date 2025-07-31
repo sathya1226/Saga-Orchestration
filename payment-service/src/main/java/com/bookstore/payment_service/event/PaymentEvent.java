@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 public class PaymentEvent {
 
     private Long orderId;
+    private Long id;
     private Double amount;
-    private String paymentStatus;
-    private String eventType;
+    private String status;
+    private String message;
 }

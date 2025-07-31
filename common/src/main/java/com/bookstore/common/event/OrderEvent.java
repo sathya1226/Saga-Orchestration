@@ -16,5 +16,5 @@ public class OrderEvent {
     private Double amount;
     private String eventType;
     private OrderStatus orderStatus;
-    private int quantity;
+    private Integer quantity;
 }

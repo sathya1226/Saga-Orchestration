@@ -15,7 +15,9 @@ public class OrderEvent {
     private Long orderId;
     private Long userId;
     private Long bookId;
-    private int quantity;
+    private String status;
+    private String message;
+    private Integer quantity;
     private OrderStatus orderStatus;
     private String eventType;
 }

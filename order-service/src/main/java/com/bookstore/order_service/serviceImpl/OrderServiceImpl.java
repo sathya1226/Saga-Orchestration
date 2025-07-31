@@ -29,9 +29,8 @@ public class OrderServiceImpl implements OrderService {
                 .status(OrderStatus.ORDER_CREATED)
                 .build();
 
-        System.out.println("Saving Order to DB: " + order);
+
         order = orderRepository.save(order);
-        System.out.println("Saved Order ID: " + order.getId());
 
         OrderEvent event = OrderEvent.builder()
                 .orderId(order.getId())
@@ -43,7 +42,6 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         orderEventProducer.sendOrderEvent(event);
-        System.out.println("Order saved: " + order);
         return order;
     }
 
